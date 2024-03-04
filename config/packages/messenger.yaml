@@ -1,0 +1,26 @@
+framework:
+    messenger:
+        buses:
+            messenger.bus.default:
+                # disable the default middleware
+                default_middleware: true
+                
+                middleware:
+                    # use and configure parts of the default middleware you want
+                    -   'add_bus_name_stamp_middleware': [ 'messenger.bus.default' ]
+                    
+                    # add your own services that implement Symfony\Component\Messenger\Middleware\MiddlewareInterface
+                    - 'App\KafkaMiddleware'
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+        # failure_transport: failed
+
+        transports:
+            kafka: 
+                dsn: enqueue://default
+                options: 
+                    queue: 
+                        name: yet_another_topic
+                        partition: 0
+
+        routing:
+            App\Message\KafkaTestCommand: kafka
