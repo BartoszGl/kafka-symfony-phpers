@@ -8,7 +8,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class KafkaTestOneMessageCommandHandler
 {
-    public function __invoke(KafkaTestOneMessageCommand $oneMessageCommand)
+    public function __invoke(KafkaTestOneMessageCommand $oneMessageCommand): void
     {
         dump($oneMessageCommand);
     }

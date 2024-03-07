@@ -25,7 +25,16 @@ You can see consumed topic name under framework.messenger.transports.kafka.optio
 
 ## Producer
 
-Our producer can be found under src/Controller/KafkaTestController.php. It is just a part of our controller.
+Our producer can be found under src/Controller/KafkaTestController.php. It is a part of our controller.
+
+## Consumer 
+
+Consumer can be found under src/MessageHandler/KafkaTestOneMessageCommandHandler.php or src/MessageHandler/KafkaTestCommandHandler.php
+
+## Miro
+
+Link to miro summarizing the presentation and this repository:
+https://miro.com/app/board/uXjVNlmwuTQ=/?share_link_id=639044447989
 
 
 
