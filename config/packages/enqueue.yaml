@@ -3,35 +3,58 @@ enqueue:
         transport:
             dsn: "rdkafka://"
             global:
+                
+                # Producer property
                 compression.type: 'lz4'
+                
+                # Producer property
                 linger.ms: '1000'
-                batch.size: '1000000'
+                
+                # Producer property
+                batch.size: '100000'
+                
+                # Connection property
                 metadata.broker.list: 'kafka1:29092'
-                group.id: 'foo-app'
-                #                request.required.acks: '0'
+                
+                # Consumer property
                 ### Make sure this is unique for each application / consumer group and does not change
                 ### Otherwise, Kafka won't be able to track your last offset and will always start according to
                 ### `auto.offset.reset` setting.
                 ### See Kafka documentation regarding `group.id` property if you want to know more
+                group.id: 'foo-app'
             connection_factory_class: 'App\ConnectorFactoryClassWithErrorCallbacks'
             topic:
+                
+                # Producer property
+                # how many times producer should try to send message
+                # Default is max int, but it would hang our php process forever
+                message.send.max.retries: '3'
+                
+                # Producer property
+                # time between particular retries
+                message.timeout.ms: '30000'
+
+                # Consumer property
                 #there are different rebalancing strategies by default for librd kafka there is a range,roundrobin assignors,that cooperative sticky can be the smoothest one
                 partition.assignment.strategy: cooperative-sticky
+                
+                # Consumer property
                 # Enable static group membership. Static group members are able to leave and rejoin a 
                 # group within the configured session.timeout.ms without prompting a group rebalance
                 # It cannot be modified if runned from the same container, needs to be passed by some .env files, otherwise we will get error:
                 # [thrd:main]: Offset commit (manual) failed for 1/1 partition(s) in join-state steady: Broker: Static consumer fenced by other consumer with same group.instance.id: yet_another_topic[2]@8172
                 # (Broker: Static consumer fenced by other consumer with same group.instance.id)
                 group.instance.id: kafka-consumer-instance-1
+                
+                # Consumer property
                 enable.auto.commit: 'false'
+                
+                # Consumer property
                 # Possible values are:
                 # earliest - automatically reset the offset to the smallest offset
                 # beginning - always read from beginning of offset
                 # latest - automatically reset the offset to the largest offset
                 auto.offset.reset: earliest
-                message.timeout.ms: '3000'
-                # Default is max int, but it would hang our php process forever
-                message.send.max.retries: '3'
             ### Commit async is true by default since version 0.9.9.
             ### It is suggested to set it to true in earlier versions since otherwise consumers become extremely slow,
             ### waiting for offset to be stored on Kafka before continuing.

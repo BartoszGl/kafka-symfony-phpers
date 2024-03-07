@@ -10,6 +10,6 @@ class KafkaTestOneMessageCommandHandler
 {
     public function __invoke(KafkaTestOneMessageCommand $oneMessageCommand)
     {
-
+        dump($oneMessageCommand);
     }
 }

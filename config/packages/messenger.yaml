@@ -22,9 +22,10 @@ framework:
                     queue: 
                         # here we are configuring the Kafka topic that symfony messenger will consume from
                         name: yet_another_topic
-                        # We can also specify exactly from which partition the kafka will consume messages
+                        # We can also specify exactly from which partition the kafka will consume messages (not working, 
+                        # we need to optionally figure it out
                         partition: 0
 
         routing:
-            App\Message\KafkaTestCommand: kafka
+#            App\Message\KafkaTestCommand: kafka
             App\Message\KafkaTestOneMessageCommand: kafka

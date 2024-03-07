@@ -18,11 +18,11 @@ class ConnectorFactoryClassWithErrorCallbacks extends RdKafkaConnectionFactory
     {
         $config['error_cb'] = function ($kafka, $err, $reason) {
             $logger = new Logger();
-            $logger->error('dupa zbita');
+            $logger->error('sromotna porażka');
         };
         $config['dr_msg_cb'] = function ($kafka, $message){
             $logger = new Logger();
-            $logger->error('dupa nie zbita');
+            $logger->notice('wow');
         };
         return $config;
     }

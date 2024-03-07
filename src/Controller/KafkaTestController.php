@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Message\KafkaTestCommand;
+use App\Message\KafkaTestOneMessageCommand;
 use Enqueue\MessengerAdapter\EnvelopeItem\TransportConfiguration;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,24 +19,27 @@ class KafkaTestController extends AbstractController
     #[Route('/kafka/test', name: 'app_kafka_test')]
     public function index(): JsonResponse
     {
-        $j = 0;
-        while ($j < 10) {
-            $i = 0;
+        $j = 1;
+        while ($j <= 10) {
+            $i = 1;
 
-            while ($i < 10) {
-                $message = new KafkaTestCommand('name' . $j . $i);
+            while ($i <= 10) {
+                $message = new KafkaTestOneMessageCommand(
+                    'name' . $i, 'surname' . $i
+                );
 
                 // Here message will be dispatched to Kafka, it is basically our producer
-                $this->messageBus->dispatch((new Envelope($message))->with(new TransportConfiguration([
-                    'topic' => 'yet_another_topic',
-                    'metadata' => [
-                        // Keys with the same id always goes to the same partition
-                        // when key is null we should use sticky partitioner
-                        'key' => 'foo.bar_' . $i,
-                        'timestamp' => (new \DateTimeImmutable())->getTimestamp(),
-                        'messageId' => uniqid('kafka_', true),
-                    ]
-                ])));
+                $this->messageBus->dispatch((new Envelope($message))
+                    ->with(new TransportConfiguration([
+                        // Decide to which topic given message goes
+                        'topic' => 'yet_another_topic',
+                        'metadata' => [
+                            // Keys with the same id always goes to the same partition
+                            // when key is null we use sticky partitioner
+                            'key' => 'foo.bar_' . $i,
+                        ]
+                    ])));
+
                 $i++;
             }
             sleep(1);
@@ -45,8 +48,7 @@ class KafkaTestController extends AbstractController
         }
 
         return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/KafkaTestController.php',
+            'message' => 'Messages sent',
         ]);
     }
 }
