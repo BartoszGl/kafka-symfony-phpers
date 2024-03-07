@@ -26,6 +26,7 @@ class KafkaTestController extends AbstractController
             while ($i < 10) {
                 $message = new KafkaTestCommand('name' . $j . $i);
 
+                // Here message will be dispatched to Kafka, it is basically our producer
                 $this->messageBus->dispatch((new Envelope($message))->with(new TransportConfiguration([
                     'topic' => 'yet_another_topic',
                     'metadata' => [

@@ -1,50 +1,35 @@
-# Symfony Docker
-
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
-
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
-
 ## Getting Started
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --no-cache` to build fresh images
-3. Run `docker compose up --pull always -d --wait` to start the project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+1. Run `docker compose build --no-cache` to build fresh images
+2. Run `docker compose up --pull always -d --wait` to start the project
+3. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
-## Features
+This repository is made as part of Kafka research. It connects symfony messenger 
+and Kafka using 3 libraries:
 
-* Production, development and CI ready
-* Just 1 service by default
-* Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://github.com/dunglas/frankenphp/blob/main/docs/worker.md) (automatically enabled in prod mode)
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and prod)
-* HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-* Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Super-readable configuration
+1. enqueue/enqueue-bundle,
+2. enqueue/rdkafka,
+3. sroze/messenger-enqueue-transport
 
-**Enjoy!**
+## Topic, consumer and producer config
+Unfortunately Symfony messenger can not use Kafka directly. 
+To communicate with Kafka and change its internal topic, consumer and producer configuration
+we have to use enqueue, you can look at its config in config/packages/enqueue.yaml.
+Inside of this file you can find description of each
+basic configuration parameters that can be modified using enqueue bundle. To find full list of
+those parameters visit (link to C library)
 
-## Docs
+To point to the topic that consumer will consume from we have to modify
+config/packages/messenger.yaml
+You can see consumed topic name under framework.messenger.transports.kafka.options.queue.name
 
-1. [Build options](docs/build.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using a Makefile](docs/makefile.md)
-8. [Using MySQL instead of PostgreSQL](docs/mysql.md)
-9. [Troubleshooting](docs/troubleshooting.md)
-10. [Updating the template](docs/updating.md)
+## Producer
 
-## License
+Our producer can be found under src/Controller/KafkaTestController.php. It is just a part of our controller.
 
-Symfony Docker is available under the MIT License.
 
-## Credits
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+
+
+
+

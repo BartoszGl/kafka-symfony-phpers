@@ -4,7 +4,7 @@ enqueue:
             dsn: "rdkafka://"
             global:
                 compression.type: 'lz4'
-                linger.ms: '10000'
+                linger.ms: '1000'
                 batch.size: '1000000'
                 metadata.broker.list: 'kafka1:29092'
                 group.id: 'foo-app'
@@ -29,7 +29,7 @@ enqueue:
                 # beginning - always read from beginning of offset
                 # latest - automatically reset the offset to the largest offset
                 auto.offset.reset: earliest
-                message.timeout.ms: '41000'
+                message.timeout.ms: '3000'
                 # Default is max int, but it would hang our php process forever
                 message.send.max.retries: '3'
             ### Commit async is true by default since version 0.9.9.
