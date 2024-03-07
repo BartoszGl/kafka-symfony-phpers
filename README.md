@@ -17,7 +17,7 @@ To communicate with Kafka and change its internal topic, consumer and producer c
 we have to use enqueue, you can look at its config in config/packages/enqueue.yaml.
 Inside of this file you can find description of each
 basic configuration parameters that can be modified using enqueue bundle. To find full list of
-those parameters visit (link to C library)
+those parameters visit (https://github.com/confluentinc/librdkafka/blob/master/CONFIGURATION.md)
 
 To point to the topic that consumer will consume from we have to modify
 config/packages/messenger.yaml
