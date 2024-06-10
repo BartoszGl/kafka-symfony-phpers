@@ -20,12 +20,12 @@ class KafkaTestController extends AbstractController
     public function index(): JsonResponse
     {
         $j = 1;
-        while ($j <= 10) {
+        while ($j <= 1) {
             $i = 1;
 
             while ($i <= 10) {
                 $message = new KafkaTestOneMessageCommand(
-                    'name' . $i, 'surname' . $i
+                    'name' . $i, 'surname' . $i, $i, 'email' . rand(1, 10000)
                 );
 
                 // Here message will be dispatched to Kafka, it is basically our producer
@@ -42,13 +42,22 @@ class KafkaTestController extends AbstractController
 
                 $i++;
             }
-            sleep(1);
 
             $j++;
         }
+        sleep(1);
 
         return $this->json([
             'message' => 'Messages sent',
         ]);
     }
 }
+
+//$message = new KafkaTestOneMessageCommand('name');
+//
+//$transportConfig = new TransportConfiguration([
+//    'topic' => 'yet_another_topic',
+//    'metadata' => ['key' => 'foo.bar']
+//]);
+//
+//$this->messageBus->dispatch((new Envelope($message))->with($transportConfig));

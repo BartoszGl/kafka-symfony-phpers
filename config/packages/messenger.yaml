@@ -15,11 +15,12 @@ framework:
         # failure_transport: failed
 
         transports:
-            kafka: 
+            kafka:
                 # we are pointing to enqueue transport, which in order points to kafka
                 dsn: enqueue://default
-                options: 
-                    queue: 
+#                serializer: App\AvroMessageSerializer
+                options:
+                    queue:
                         # here we are configuring the Kafka topic that symfony messenger will consume from
                         name: yet_another_topic
                         # We can also specify exactly from which partition the kafka will consume messages (not working, 
@@ -27,5 +28,5 @@ framework:
                         partition: 0
 
         routing:
-#            App\Message\KafkaTestCommand: kafka
+            #            App\Message\KafkaTestCommand: kafka
             App\Message\KafkaTestOneMessageCommand: kafka

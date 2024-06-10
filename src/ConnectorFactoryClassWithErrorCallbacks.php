@@ -3,7 +3,6 @@
 namespace App;
 
 use Enqueue\RdKafka\RdKafkaConnectionFactory;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Log\Logger;
 
 class ConnectorFactoryClassWithErrorCallbacks extends RdKafkaConnectionFactory
