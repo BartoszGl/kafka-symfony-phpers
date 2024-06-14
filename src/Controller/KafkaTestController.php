@@ -20,25 +20,26 @@ class KafkaTestController extends AbstractController
     public function index(): JsonResponse
     {
         $j = 1;
-        while ($j <= 1) {
+        while ($j <= 10) {
             $i = 1;
 
             while ($i <= 10) {
                 $message = new KafkaTestOneMessageCommand(
-                    'name' . $i, 'surname' . $i, $i, 'email' . rand(1, 10000)
+                    'name' . $i, 'surname' . $i
                 );
 
+                $transportConfiguration = new TransportConfiguration([
+                    // Decide to which topic given message goes
+                    'topic' => 'yet_another_topic',
+                    'metadata' => [
+                        // Keys with the same id always goes to the same partition
+                        // when key is null we use sticky partitioner
+                        'key' => 'foo.bar_' . $i,
+                    ]
+                ]);
+
                 // Here message will be dispatched to Kafka, it is basically our producer
-                $this->messageBus->dispatch((new Envelope($message))
-                    ->with(new TransportConfiguration([
-                        // Decide to which topic given message goes
-                        'topic' => 'yet_another_topic',
-                        'metadata' => [
-                            // Keys with the same id always goes to the same partition
-                            // when key is null we use sticky partitioner
-                            'key' => 'foo.bar_' . $i,
-                        ]
-                    ])));
+                $this->messageBus->dispatch((new Envelope($message))->with($transportConfiguration));
 
                 $i++;
             }

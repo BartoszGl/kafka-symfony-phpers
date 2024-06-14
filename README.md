@@ -31,11 +31,6 @@ Our producer can be found under src/Controller/KafkaTestController.php. It is a 
 
 Consumer can be found under src/MessageHandler/KafkaTestOneMessageCommandHandler.php or src/MessageHandler/KafkaTestCommandHandler.php
 
-## Miro
-
-Link to miro summarizing the presentation and this repository:
-https://miro.com/app/board/uXjVNlmwuTQ=/?share_link_id=639044447989
-
 
 
 

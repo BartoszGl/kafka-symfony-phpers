@@ -60,9 +60,9 @@ class AvroMessageSerializer implements SerializerInterface
             $envelope->getMessage(),
             AvroSerDeEncoder::FORMAT_AVRO,
             [
-                AvroSerDeEncoder::CONTEXT_ENCODE_SUBJECT =>  $topicStamp->getTopic(),
+                AvroSerDeEncoder::CONTEXT_ENCODE_SUBJECT => $topicStamp->getTopic(),
                 AvroSerDeEncoder::CONTEXT_ENCODE_WRITERS_SCHEMA => $avroSchema
-             ]
+            ]
         );
 
         $allStamps = $this->collectAllSendableStamps($envelope);
@@ -84,16 +84,10 @@ class AvroMessageSerializer implements SerializerInterface
 
     private function createExampleCommandEnvelope(?string $data): Envelope
     {
-        $schema = $this->generator->generate(KafkaTestOneMessageCommand::class);
-        $avroSchema = $schema->parse();
-
         $message = $this->symfonySerializer->deserialize(
             $data,
             KafkaTestOneMessageCommand::class,
-            AvroSerDeEncoder::FORMAT_AVRO,
-            [
-                AvroSerDeEncoder::CONTEXT_DECODE_READERS_SCHEMA => $avroSchema
-            ]
+            AvroSerDeEncoder::FORMAT_AVRO
         );
 
         return (new Envelope($message));

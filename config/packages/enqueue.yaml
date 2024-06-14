@@ -3,6 +3,9 @@ enqueue:
         transport:
             dsn: "rdkafka://"
             global:
+                group.id: 'foo-app'
+                enable.auto.commit: 'true'
+                auto.commit.interval.ms: '10000'
                 
                 # Producer property
                 compression.type: 'lz4'
@@ -21,7 +24,6 @@ enqueue:
                 ### Otherwise, Kafka won't be able to track your last offset and will always start according to
                 ### `auto.offset.reset` setting.
                 ### See Kafka documentation regarding `group.id` property if you want to know more
-                group.id: 'foo-app'
             connection_factory_class: 'App\ConnectorFactoryClassWithErrorCallbacks'
             topic:
                 
@@ -45,10 +47,7 @@ enqueue:
                 # [thrd:main]: Offset commit (manual) failed for 1/1 partition(s) in join-state steady: Broker: Static consumer fenced by other consumer with same group.instance.id: yet_another_topic[2]@8172
                 # (Broker: Static consumer fenced by other consumer with same group.instance.id)
                 group.instance.id: kafka-consumer-instance-1
-                
-                # Consumer property
-                enable.auto.commit: 'false'
-                
+                                
                 # Consumer property
                 # Possible values are:
                 # earliest - automatically reset the offset to the smallest offset

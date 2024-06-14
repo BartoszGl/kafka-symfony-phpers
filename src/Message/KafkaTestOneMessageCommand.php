@@ -9,17 +9,17 @@ use FlixTech\AvroSerializer\Objects\Schema\Generation\Annotations as SerDe;
  * @SerDe\AvroName("user")
  * @SerDe\AvroNamespace("example.namespace")
  */
-class KafkaTestOneMessageCommand
+readonly class KafkaTestOneMessageCommand
 {
     public function __construct(
         /**
          * @SerDe\AvroType("string")
          */
-        public readonly string $name,
+        public string $name,
         /**
          * @SerDe\AvroType("string")
          */
-        public readonly string $surname,
+        public string $surname,
     )
     {
     }

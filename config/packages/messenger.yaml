@@ -18,7 +18,7 @@ framework:
             kafka:
                 # we are pointing to enqueue transport, which in order points to kafka
                 dsn: enqueue://default
-#                serializer: App\AvroMessageSerializer
+                serializer: App\AvroMessageSerializer
                 options:
                     queue:
                         # here we are configuring the Kafka topic that symfony messenger will consume from
